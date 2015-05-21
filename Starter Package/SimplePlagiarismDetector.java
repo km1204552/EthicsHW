@@ -98,14 +98,40 @@ public class SimplePlagiarismDetector{
 
 	// returns a list of unigrams by loading a file given its path
 	private ArrayList<String> loadUnigramsFromFile(String fname) {
-		// TODO implement this function
-		return null;
+		Scanner reader;
+		ArrayList<String> ret = new ArrayList<>();
+		try {
+			reader = new Scanner(new File(fname));
+			
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+		
+		while(reader.hasNext()){
+			ret.add(reader.next());
+		}
+		reader.close();
+		
+		return ret;
 	}
 
 	// returns a list of lines by loading a file given its path
 	private ArrayList<String> loadLinesFromFile(String fname) {
-		// TODO implement this function
-		return null;
+		Scanner reader;
+		ArrayList<String> ret = new ArrayList<>();
+		try {
+			reader = new Scanner(new File(fname));
+
+		} catch (FileNotFoundException e) {
+			return null;
+		}
+
+		while (reader.hasNextLine()) {
+			ret.add(reader.nextLine());
+		}
+		reader.close();
+
+		return ret;
 	}
 
 	//computes the n-gram similarity between two files, given n and the weighting option of similarity function for both words and lines options
