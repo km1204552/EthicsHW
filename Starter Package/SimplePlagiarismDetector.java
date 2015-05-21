@@ -110,7 +110,7 @@ public class SimplePlagiarismDetector{
 		}
 		
 		while(reader.hasNext()){
-			ret.add(reader.next());
+			ret.add(reader.next().toLowerCase());//to make the detector case insensitive
 		}
 		reader.close();
 		
@@ -129,7 +129,7 @@ public class SimplePlagiarismDetector{
 		}
 
 		while (reader.hasNextLine()) {
-			ret.add(reader.nextLine());
+			ret.add(reader.nextLine().toLowerCase());//to make the detector case insensitive
 		}
 		reader.close();
 
