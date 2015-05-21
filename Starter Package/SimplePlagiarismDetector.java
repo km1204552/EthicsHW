@@ -66,6 +66,40 @@ public class SimplePlagiarismDetector{
 		return result;*/
 	}
 
+	//returns list (allows repeated elements) of n-grams given unigrams
+	private ArrayList<String> getUncleanNGrams(ArrayList<String> a, int n) {
+
+		ArrayList<String> nGrams = new ArrayList<>();
+
+		for(int i = 0; i < a.size() - n + 1; i++) {
+			StringBuilder term = new StringBuilder(a.get(i));
+			int len = 1; //the first one is already added
+
+			while(len < n) {
+				term.append(' ');
+				term.append(a.get(i + len));
+				len++;
+			}
+
+			nGrams.add(term.toString());
+		}
+
+		return nGrams;
+	}
+
+	private Map<String, Integer> occurences(ArrayList<String> S) {
+		Map<String, Integer> table = new HashMap<>();
+
+		for(String term : S) {
+			if(!table.containsKey(term))
+				table.put(term, 1);
+			else
+				table.put(term, table.get(term) + 1);
+		}
+
+		return table;
+	}
+
 	// computes the unweighted similarity between the two lists of terms
 	private float getUnweightedNGramSimilarity(ArrayList<String> x, ArrayList<String> y) {
 			return (float)intersect(x, y).size() / union(x, y).size();
@@ -73,8 +107,19 @@ public class SimplePlagiarismDetector{
 
 	// computes the weighted similarity between the two lists of terms
 	private float getWeightedBGramSimilarity(ArrayList<String> x, ArrayList<String> y) {
-		// TODO implement this function
-		return 1;
+		Map<String, Integer> x_occurences = occurences(x),
+													y_occurences = occurences(y);
+
+		int dom = 0, nom = 0;
+		ArrayList<String> xUy = union(x, y);
+
+		for(String t : xUy) {
+			int xt = x_occurences.get(t), yt = y_occurences.get(t);
+			dom += Math.min(xt, yt);
+			nom += Math.max(xt, yt);
+		}
+
+		return (float)dom/nom;
 	}
 
 	//returns list of n-grams given unigrams
@@ -104,16 +149,16 @@ public class SimplePlagiarismDetector{
 		ArrayList<String> ret = new ArrayList<>();
 		try {
 			reader = new Scanner(new File(fname));
-			
+
 		} catch (FileNotFoundException e) {
 			return null;
 		}
-		
+
 		while(reader.hasNext()){
 			ret.add(reader.next().toLowerCase());//to make the detector case insensitive
 		}
 		reader.close();
-		
+
 		return ret;
 	}
 
@@ -198,7 +243,19 @@ public class SimplePlagiarismDetector{
 		for(String s : ng)
 			System.out.println(s);
 
+
 		System.out.println(pd.getUnweightedNGramSimilarity(list, list2));
+
+		System.out.println("\n\n\n");
+
+		list.add("word1");
+		list.add("word2");
+		list.add("word1");
+
+		Map<String, Integer> map = pd.occurences(list);
+		System.out.println("occ of word1: " + map.get("word1"));
+		System.out.println("occ of word2: " + map.get("word2"));
+		System.out.println("occ of word3: " + map.get("word3"));
 
 		//using word n-grams, n = 2, weighted similarity
 		System.out.println(pd.getSimilarity(xFileName, yFileName, false, 2, true));
@@ -247,6 +304,6 @@ public class SimplePlagiarismDetector{
 			}
 		}
 		writer.close();
-		
+
 	}
 }
