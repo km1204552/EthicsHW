@@ -201,12 +201,12 @@ public class SimplePlagiarismDetector{
 		System.out.println(pd.getUnweightedNGramSimilarity(list, list2));
 
 		//using word n-grams, n = 2, weighted similarity
-		/*System.out.println(pd.getSimilarity(xFileName, yFileName, false, 2, true));
+		System.out.println(pd.getSimilarity(xFileName, yFileName, false, 2, true));
 
 		//using word n-grams, n = 3, unweighted similarity
 		System.out.println(pd.getSimilarity(xFileName, yFileName, false, 3, false));
 
 		//using line n-grams, n = 1, unweighted similarity
-		System.out.println(pd.getSimilarity(xFileName, yFileName, true, 1, false));*/
+		System.out.println(pd.getSimilarity(xFileName, yFileName, true, 1, false));
 	}
 }
