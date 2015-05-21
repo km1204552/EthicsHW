@@ -208,5 +208,45 @@ public class SimplePlagiarismDetector{
 
 		//using line n-grams, n = 1, unweighted similarity
 		System.out.println(pd.getSimilarity(xFileName, yFileName, true, 1, false));
+		//Q1
+		Formatter writer=null;
+		try {
+			writer=new Formatter("OutputQ1.csv");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("Q 1:");
+		boolean isLine=false, weighted=false;
+		for(int i=0; i<4; i++){
+			switch(i){
+			case 0:
+				isLine=false;
+				weighted=false;
+				break;
+			case 1:
+				isLine=false;
+				weighted=true;
+				break;
+			case 2:
+				isLine=true;
+				weighted=false;
+				break;
+			case 3:
+				isLine=true;
+				weighted=true;
+			}
+
+			System.out.printf("Is Line: %s, Is weighted : %s \n",isLine,weighted);
+			writer.format("Is Line: %s Is weighted : %s \n",isLine,weighted);
+			for(int j=1; j<=4;j++){
+				System.out.print("n =" + j);
+				float n;
+				System.out.println(n=pd.getSimilarity(xFileName, yFileName, isLine, j, weighted));
+				writer.format("%d,%.2f\n", j,n);
+			}
+		}
+		writer.close();
+		
 	}
 }
