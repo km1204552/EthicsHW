@@ -4,24 +4,27 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
-public class SimplePlagiarismDetector{
-	private ArrayList<String> intersect(ArrayList<String> S1, ArrayList<String> S2) {
-			ArrayList<String> result = new ArrayList<>();
+public class SimplePlagiarismDetector {
+	private ArrayList<String> intersect(ArrayList<String> S1,
+			ArrayList<String> S2) {
+		ArrayList<String> result = new ArrayList<>();
 
-			for(String t1 : S1) {
-				for(String t2 : S2) {
-					if(t1.equals(t2))
-						result.add(t1);
-				}
+		for (String t1 : S1) {
+			for (String t2 : S2) {
+				if (t1.equals(t2))
+					if(!result.contains(t1))
+					result.add(t1);
 			}
+		}
 
-			return result;
+		return result;
 	}
 
 	private ArrayList<String> union(ArrayList<String> S1, ArrayList<String> S2) {
