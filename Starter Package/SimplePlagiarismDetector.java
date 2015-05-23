@@ -114,7 +114,11 @@ public class SimplePlagiarismDetector{
 		ArrayList<String> xUy = union(x, y);
 
 		for(String t : xUy) {
-			int xt = x_occurences.get(t), yt = y_occurences.get(t);
+			Integer xt_temp = x_occurences.get(t),
+			 	yt_temp = y_occurences.get(t);
+
+			int xt = xt_temp != null? xt_temp : 0, yt = yt_temp != null? yt_temp : 0;
+
 			dom += Math.min(xt, yt);
 			nom += Math.max(xt, yt);
 		}
@@ -256,6 +260,10 @@ public class SimplePlagiarismDetector{
 		System.out.println("occ of word1: " + map.get("word1"));
 		System.out.println("occ of word2: " + map.get("word2"));
 		System.out.println("occ of word3: " + map.get("word3"));
+		Map<String, Integer> map2 = pd.occurences(list2);
+
+		float sim = pd.getWeightedBGramSimilarity(list, list2);
+		System.out.println(sim);
 
 		//using word n-grams, n = 2, weighted similarity
 		System.out.println(pd.getSimilarity(xFileName, yFileName, false, 2, true));
