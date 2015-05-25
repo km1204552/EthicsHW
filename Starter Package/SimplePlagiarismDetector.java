@@ -28,7 +28,7 @@ public class SimplePlagiarismDetector {
 	}
 
 	private ArrayList<String> union(ArrayList<String> S1, ArrayList<String> S2) {
-		//1st method: O(n + m) : n=|S1| and m=|S2|
+
 		HashMap<String, Integer> map = new HashMap<>();
 
 		for(String t1 : S1)
@@ -46,48 +46,6 @@ public class SimplePlagiarismDetector {
 			result.add(k);
 
 		return result;
-
-		//2nd method: O(n*m) : n=|S1| and m=|S2|
-		/*ArrayList<String> result = new ArrayList<>();
-
-		for(String t1 : S1)
-			result.add(t1);
-
-		for(String t2 : S2) {
-				boolean found = false;
-				for(String temp : result) {
-					if(t2.equals(temp)) {
-						found = true;
-						break;
-					}
-				}
-
-				if(!found)
-					result.add(t2);
-		}
-
-		return result;*/
-	}
-
-	//returns list (allows repeated elements) of n-grams given unigrams
-	private ArrayList<String> getUncleanNGrams(ArrayList<String> a, int n) {
-
-		ArrayList<String> nGrams = new ArrayList<>();
-
-		for(int i = 0; i < a.size() - n + 1; i++) {
-			StringBuilder term = new StringBuilder(a.get(i));
-			int len = 1; //the first one is already added
-
-			while(len < n) {
-				term.append(' ');
-				term.append(a.get(i + len));
-				len++;
-			}
-
-			nGrams.add(term.toString());
-		}
-
-		return nGrams;
 	}
 
 	private Map<String, Integer> occurences(ArrayList<String> S) {
@@ -222,52 +180,6 @@ public class SimplePlagiarismDetector {
 
 		SimplePlagiarismDetector pd = new SimplePlagiarismDetector();
 
-		ArrayList<String> list = new ArrayList<>();
-		list.add("word1");
-		list.add("word2");
-		list.add("word3");
-		list.add("word4");
-		list.add("word5");
-
-		ArrayList<String> list2 = new ArrayList<>();
-		list2.add("word1");
-		list2.add("word6");
-		list2.add("word4");
-
-		System.out.println("Intersection: ");
-		ArrayList<String> inter = pd.intersect(list, list2);
-		for(String s : inter)
-			System.out.println(s);
-
-		System.out.println("Union: ");
-		ArrayList<String> uni = pd.union(list, list2);
-		for(String s : uni)
-			System.out.println(s);
-
-		System.out.println("ngrams");
-		ArrayList<String> ng = pd.getNGrams(list, 4);
-
-		for(String s : ng)
-			System.out.println(s);
-
-
-		System.out.println(pd.getUnweightedNGramSimilarity(list, list2));
-
-		System.out.println("\n\n\n");
-
-		list.add("word1");
-		list.add("word2");
-		list.add("word1");
-
-		Map<String, Integer> map = pd.occurences(list);
-		System.out.println("occ of word1: " + map.get("word1"));
-		System.out.println("occ of word2: " + map.get("word2"));
-		System.out.println("occ of word3: " + map.get("word3"));
-		Map<String, Integer> map2 = pd.occurences(list2);
-
-		float sim = pd.getWeightedBGramSimilarity(list, list2);
-		System.out.println(sim);
-
 		//using word n-grams, n = 2, weighted similarity
 		System.out.println(pd.getSimilarity(xFileName, yFileName, false, 2, true));
 
@@ -276,6 +188,7 @@ public class SimplePlagiarismDetector {
 
 		//using line n-grams, n = 1, unweighted similarity
 		System.out.println(pd.getSimilarity(xFileName, yFileName, true, 1, false));
+
 		//Q1
 		Formatter writer=null;
 		try {
@@ -284,6 +197,7 @@ public class SimplePlagiarismDetector {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		System.out.println("Q 1:");
 		boolean isLine=false, weighted=false;
 		for(int i=0; i<4; i++){
